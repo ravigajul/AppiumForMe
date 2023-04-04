@@ -1,5 +1,6 @@
 # AppiumForMe
 Appium is a mobile automation testing tool that allows developers to write automated tests for mobile applications across different platforms (iOS, Android, Windows) using a single API. The architecture of Appium consists of several components that work together to execute test scripts on mobile devices.
+## Appium Architecture
 
 Here's a brief overview of the Appium architecture:
 
