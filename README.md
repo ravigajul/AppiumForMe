@@ -8,7 +8,7 @@ Here's a brief overview of the Appium architecture:
 
 **Client Libraries**: The client libraries are the language-specific bindings that allow the test script to communicate with the Appium server. These libraries provide an API for the test script to interact with the Appium server.
 
-**Appium Server**: The Appium server is the main component of the Appium architecture. It receives commands from the test script and executes them on the mobile device using the appropriate mobile automation framework (such as UI Automator for Android or XCTest for iOS).
+**Appium Server**: The Appium server is the main component of the Appium architecture. It receives commands from the test script and executes them on the mobile device using the appropriate mobile automation framework (such as UI Automator for Android or XCUITest for iOS).
 
 **Mobile Automation Framework**: The mobile automation framework is a set of tools and libraries that enable Appium to automate the mobile device. These frameworks differ depending on the platform (iOS or Android) and are responsible for interacting with the mobile device to perform actions such as tapping, swiping, typing, and more.
 
