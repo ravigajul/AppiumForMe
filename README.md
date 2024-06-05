@@ -51,4 +51,5 @@ In the latest version if the above folders are unavailable set the below path.
 PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools  
 
 ## Check Android Emulator is checked
-Tools->SDK Manager -> SDKTools(Tab) -...Ensure Android Emulator is selected and installed also ADroid SDK Paltform tools is selected.
+Tools->SDK Manager -> SDKTools(Tab) -...Ensure Android Emulator is selected and installed also ADroid SDK Paltform tools is selected. 
+Select and install Adroid SDK commandline tools
