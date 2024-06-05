@@ -38,3 +38,6 @@ appium driver --help or (-h)
 appium driver list
 appium driver install uiautomator2
 ```
+
+## Download appium inspector
+https://github.com/appium/appium-inspector
