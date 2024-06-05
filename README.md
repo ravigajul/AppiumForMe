@@ -27,7 +27,7 @@ Hybrid mobile apps, on the other hand, are developed using web technologies like
 
 ## Install, Run Appium and uninstall
 ```node
-npm install -g appium@next
+npm install -g appium
 appium
 npm uninstall -g appium
 ```
