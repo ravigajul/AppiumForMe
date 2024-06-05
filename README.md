@@ -45,4 +45,4 @@ https://github.com/appium/appium-inspector
 ## Install Adroid studio and set env variables
 https://developer.android.com/  
 ANDROID_HOME = C:\Users\<username>\AppData\Local\Android\Sdk  
-PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools;%ANDROID_HOME%\bin  
+PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools
