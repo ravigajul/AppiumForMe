@@ -45,7 +45,10 @@ https://github.com/appium/appium-inspector
 ## Install Adroid studio and set env variables
 https://developer.android.com/ 
 File->Settings->AndroiSDK --> Next
-ANDROID_HOME = C:\Users\<username>\AppData\Local\Android\Sdk  
-PATH: %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools%ANDROID_HOME%\tools\bin
-In the latest version if the above folders are unavailable set the below path.
-PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools
+ANDROID_HOME = C:\Users\<username>\AppData\Local\Android\Sdk   
+PATH: %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools%ANDROID_HOME%\tools\bin  
+In the latest version if the above folders are unavailable set the below path.  
+PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools  
+
+## Check Android Emulator is checked
+Tools->SDK Manager -> SDKTools(Tab) -...Ensure Android Emulator is selected and installed.
