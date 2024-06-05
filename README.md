@@ -31,3 +31,10 @@ npm install -g appium
 appium
 npm uninstall -g appium
 ```
+
+## Install UIAutomator2 driver using appium cli
+```bash
+appium driver --help or (-h)
+appium driver list
+appium driver install uiautomator2
+```
