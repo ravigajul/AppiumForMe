@@ -24,3 +24,10 @@ Native mobile apps are developed specifically for a particular mobile platform u
 
 ## Hybrid
 Hybrid mobile apps, on the other hand, are developed using web technologies like HTML, CSS, and JavaScript and are wrapped in a native container that allows them to be installed and run on a mobile device. Hybrid apps can be developed once and deployed across multiple platforms, making them more cost-effective than developing multiple native apps. However, they may not be as optimized for a particular platform as a native app, and may not have access to all of the device's features and functionality.
+
+## Install, Run Appium and uninstall
+```node
+npm install -g appium@next
+appium
+npm uninstall -g appium
+```
