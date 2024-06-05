@@ -44,7 +44,7 @@ https://github.com/appium/appium-inspector
 
 ## Install Adroid studio and set env variables
 https://developer.android.com/ 
-Upon installation if the sdk is not installed download "commandlinetools-win-11076708_latest.zip" on the downloads page. Scroll down to see these packges.
+File->Settings->AndroiSDK --> Next
 ANDROID_HOME = C:\Users\<username>\AppData\Local\Android\Sdk  
 PATH: %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools%ANDROID_HOME%\tools\bin
 In the latest version if the above folders are unavailable set the below path.
