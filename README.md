@@ -44,12 +44,109 @@ https://github.com/appium/appium-inspector
 
 ## Install Adroid studio and set env variables
 https://developer.android.com/ 
-File->Settings->AndroiSDK --> Next
-ANDROID_HOME = C:\Users\<username>\AppData\Local\Android\Sdk   
-PATH: %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\tools%ANDROID_HOME%\tools\bin  
-In the latest version if the above folders are unavailable set the below path.  
-PATH : %ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools  
+
 
 ## Check Android Emulator is checked
 Tools->SDK Manager -> SDKTools(Tab) -...Ensure Android Emulator is selected and installed also ADroid SDK Paltform tools is selected. 
 Select and install Adroid SDK commandline tools
+
+## Appium Driver Managerment
+
+### List Drivers
+
+```bash
+appium driver list
+appium driver list --installed
+appium driver list --updates
+```
+
+### Update Drivers
+
+```bash
+appium driver update uiautomator2
+appium driver update --unsafe 
+appium driver update installed
+```
+
+### Install Driver
+
+```bash
+appium driver install <driver_name>
+appium driver install <driver_name@version>
+appium driver install --source <source>  --package <name>
+source: npm (Default) , github, git, local
+```
+
+## List the devices
+This displays the udid of the devices runnning. udid can be used in ui inspector to uniquely identify the device.
+```bash
+adb devices
+```
+
+## Desired Capabilities
+Desired capabilities in Appium are key-value pairs that define the configuration and settings for an Appium test session. They allow you to specify details about the test environment, device, and application you want to automate. Here are the key points about desired capabilities in Appium:
+
+1. Purpose: Desired capabilities instruct the Appium server about the desired mobile platform, device, and other settings to be used as the test environment.
+
+2. Format: They are represented as key-value pairs encoded in a JSON object.
+
+3. Functionality: Capabilities help configure the Appium server and provide criteria for running automation scripts, such as specifying the environment (emulator or real device), operating system version, and more.
+
+4. Platform-specific: Appium supports both Android and iOS, with some capabilities being common and others specific to each platform.
+
+5. Examples of common capabilities:
+   - platformName: Specifies the mobile OS (e.g., "Android" or "iOS")
+   - deviceName: Name of the device to be used
+   - platformVersion: Version of the mobile OS
+   - app: Path to the mobile app to be tested
+   - automationName: Name of the driver to be used (e.g., "UiAutomator2" for Android, "XCUITest" for iOS)
+
+6. Usage: Desired capabilities are sent to the Appium server by the Appium client when a new automation session is requested.
+
+7. Flexibility: They allow testers to define precisely what attributes their test session should possess, enabling customization of the test environment.
+
+8. Standardization: Appium follows the W3C WebDriver spec for capabilities, adding its own custom capabilities with the "appium:"
+
+9. Security: It's recommended to use environment variables for storing sensitive information like API keys or credentials when setting up capabilities.
+
+By properly configuring desired capabilities, testers can ensure their Appium tests run in the intended environment with the correct settings, leading to more reliable and efficient mobile app testing.
+
+## AppPackage and AppActivity 
+These are two important concepts in Android app development and testing, particularly when working with tools like Appium. Here's a concise explanation of each:
+
+AppPackage:
+
+1. AppPackage is the unique identifier for an Android application.
+2. It's essentially the technical name of the app provided by its developers.
+3. It's the top-level package under which all the code for the app resides.
+4. Examples:
+   - YouTube: com.google.android.youtube
+   - Facebook: com.facebook.katana
+   - WhatsApp: com.whatsapp
+
+AppActivity:
+
+1. AppActivity refers to the different functionalities or screens provided by the app.
+2. Each distinct screen or function within an app is represented by an Activity.
+3. Every app has a main activity, which is the main screen you see when you launch the app.
+4. For example, in WhatsApp, the main activity is the Chats window, while for Facebook, it would be the News Feed.
+
+When using Appium or other testing tools:
+
+1. You need to provide both the AppPackage and AppActivity to launch a specific app and screen.
+2. The main activity is typically used when you want to start the app from its primary interface.
+3. These details are crucial for setting up automated tests, as they tell Appium which app to open and which screen to start with[1].
+
+To find the AppPackage and AppActivity for an app, you can use ADB (Android Debug Bridge) commands like:
+
+```bash
+adb shell dumpsys window displays | grep -E 'mCurrentFocus'
+```
+
+or
+
+```bash
+adb shell dumpsys window displays | grep -E 'mFocusedApp'
+```
+
+These commands will provide you with the necessary information to set up your Appium tests correctly.
