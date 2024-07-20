@@ -218,7 +218,28 @@ WebElement elementByImage = driver.findElement(AppiumBy.image("/path/to/image.pn
 // Example of locating an element using an image
 WebElement elementByImage = driver.findElement(AppiumBy.image("/path/to/image.png"));
 elementByImage.click();
+
+//Example of locating an element using a base64 image
+// import java.util.Base64;
+// import java.io.IOException;
+// import java.nio.file.Files;
+// import java.nio.file.Paths;
+try {
+   // Read the image file and encode it to Base64
+   byte[] fileContent = Files.readAllBytes(Paths.get("/path/to/your/image.png"));
+   String base64Image = Base64.getEncoder().encodeToString(fileContent);
+
+   // Use the Base64 encoded image to locate the element
+   WebElement element = driver.findElement(AppiumBy.image(base64Image));
+
+   // Perform action on the element
+   element.click();
+
+   } catch (IOException e) {
+      e.printStackTrace();
+   }
 ```
+
 ## Practical Tips for Using Image Locators
 - **Ensure Image Quality**: The image used for locating the element should be clear and of high quality to improve accuracy.
 - **Image Path**: Use an absolute path or ensure the relative path is correctly set in your project.
