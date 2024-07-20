@@ -150,3 +150,79 @@ adb shell dumpsys window displays | grep -E 'mFocusedApp'
 ```
 
 These commands will provide you with the necessary information to set up your Appium tests correctly.
+
+
+## Locator Strategies
+
+1. **ID**:
+   ```java
+   driver.findElement(AppiumBy.id("element_id"));
+   ```
+
+2. **Accessibility ID**:
+   ```java
+   driver.findElement(AppiumBy.accessibilityId("accessibility_id"));
+   ```
+
+3. **Class Name**:
+   ```java
+   driver.findElements(AppiumBy.className("android.widget.Button"));
+   ```
+
+4. **XPath**:
+   ```java
+   driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text='example']"));
+   ```
+
+5. **Android UIAutomator**:
+   ```java
+   driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().text(\"example\")"));
+   ```
+
+6. **iOS Predicate String**:
+   ```java
+   driver.findElement(AppiumBy.iOSNsPredicateString("type == 'XCUIElementTypeButton' AND name CONTAINS 'example'"));
+   ```
+
+For the UIAutomator example with scrolling, you would use:
+
+```java
+driver.findElement(AppiumBy.androidUIAutomator(
+    "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"example\"))"
+));
+```
+
+7. **Locating by Name**:
+
+```java
+// Locating an element by name
+WebElement elementByName = driver.findElement(AppiumBy.name("element_name"));
+```
+
+8. **Locating by Image**:
+
+Appium supports locating elements by image, which is useful for elements that do not have unique identifiers or are dynamically generated. This requires the image to be stored locally or accessible via a URL.
+
+```java
+// Locating an element by image
+WebElement elementByImage = driver.findElement(AppiumBy.image("/path/to/image.png"));
+```
+
+### Steps to Use Image Locator
+1. **Capture the Image**: Take a screenshot of the element you want to locate.
+2. **Store the Image**: Save the image in a local directory or make it accessible via a URL.
+3. **Use the Image in Appium**: Use the `AppiumBy.image` method to locate the element.
+
+### Example Code for Image Locator
+```java
+// Example of locating an element using an image
+WebElement elementByImage = driver.findElement(AppiumBy.image("/path/to/image.png"));
+elementByImage.click();
+```
+## Practical Tips for Using Image Locators
+- **Ensure Image Quality**: The image used for locating the element should be clear and of high quality to improve accuracy.
+- **Image Path**: Use an absolute path or ensure the relative path is correctly set in your project.
+- **Performance Considerations**: Locating elements by image can be slower compared to other strategies. Use it when other locators are not feasible.
+
+
+
