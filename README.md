@@ -246,4 +246,67 @@ try {
 - **Performance Considerations**: Locating elements by image can be slower compared to other strategies. Use it when other locators are not feasible.
 
 
+## Mobile Gestures
+https://github.com/appium/appium-uiautomator2-driver
+https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
+
+UiAutomator2 provides several extensions that allow to automate popular mobile gesture shortcuts:
+
+1. mobile: dragGesture
+2. mobile: flingGesture
+3. mobile: doubleClickGesture
+4. mobile: clickGesture
+5. mobile: longClickGesture
+6. mobile: pinchCloseGesture
+7. mobile: pinchOpenGesture
+8. mobile: swipeGesture
+9. mobile: scrollGesture
+
+## Understanding clickGesture 
+```java
+WebElement element = driver.findElement(AppiumBy.id("io.appium.android.apis:id/drag_dot_1"));
+((JavascriptExecutor) driver).executeScript("mobile: clickGesture", ImmutableMap.of(
+    "elementId", ((RemoteWebElement) element).getId()));
+```
+
+## Components
+
+1. `(JavascriptExecutor) driver`
+   - This is a cast of the `driver` object to `JavascriptExecutor` interface.
+   - It allows execution of JavaScript code within the context of the current session.
+
+2. `executeScript()`
+   - A method of JavascriptExecutor that executes JavaScript in the current context.
+
+3. `"mobile: clickGesture"`
+   - This is a special command recognized by Appium for mobile testing.
+   - It instructs Appium to perform a click gesture on a mobile element.
+
+4. `ImmutableMap.of()`
+   - Creates an immutable map with key-value pairs.
+   - In this case, it's creating a map with a single key-value pair.
+
+5. `"elementId"` (key)
+   - The key in the map, specifying that we're providing an element ID.
+
+6. `((RemoteWebElement) element).getId()` (value)
+   - Casts `element` to `RemoteWebElement` and calls `getId()` to get its unique identifier.
+
+## Purpose
+
+This code is executing a mobile click gesture on a specific element. Here's what it does:
+
+1. It uses JavaScript execution capabilities to run a mobile-specific command.
+2. The command `"mobile: clickGesture"` tells Appium to perform a click action.
+3. It provides the ID of the element to be clicked, obtained from the `element` object.
+
+## Key-Value Pair
+
+The key-value pair in this context is:
+- Key: `"elementId"`
+- Value: The ID of the element (obtained from `element.getId()`)
+
+This pair is used to tell Appium which specific element should be clicked.
+
+
 
