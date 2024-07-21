@@ -124,19 +124,53 @@ public class GesturesTest1 extends BaseTest {
     }
 
     @Test
-    public void swipeLeftGestureTest() {
+    public void swipeLeftGestureTest() throws InterruptedException {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        Thread.sleep(2000);
+        driver.findElement(AppiumBy.accessibilityId("Gallery")).click();
+        Thread.sleep(2000);
+        driver.findElement(AppiumBy.accessibilityId("1. Photos")).click();
+        Thread.sleep(2000);
+        WebElement firstPhoto = driver
+                .findElement(AppiumBy.xpath("(//android.widget.ImageView[@class='android.widget.ImageView'])[1]"));
         // Java
         ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
-                "left", 139, "top", 2771, "width", 200, "height", 200,
+                "elementId", ((RemoteWebElement) firstPhoto).getId(),
                 "direction", "left",
                 "percent", 0.75));
     }
 
     @Test
-    public void swipeUpGestureTest() throws InterruptedException {
-        Thread.sleep(2000);
+    public void swipeRightGestureTest() throws InterruptedException {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        Thread.sleep(3000);
+        driver.findElement(AppiumBy.accessibilityId("Gallery")).click();
+        Thread.sleep(2000);
+        driver.findElement(AppiumBy.accessibilityId("1. Photos")).click();
+        Thread.sleep(2000);
+
+        // swipe left
+        WebElement firstPhoto = driver
+                .findElement(AppiumBy.xpath("(//android.widget.ImageView[@class='android.widget.ImageView'])[1]"));
+        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+                "elementId", ((RemoteWebElement) firstPhoto).getId(),
+                "direction", "left",
+                "percent", 0.75));
+
+        // swipe right
+        WebElement secondPhoto = driver
+                .findElement(AppiumBy.xpath("(//android.widget.ImageView[@class='android.widget.ImageView'])[2]"));
+        // Java
+        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+                "elementId", ((RemoteWebElement) secondPhoto).getId(),
+                "direction", "right",
+                "percent", 0.75));
+    }
+
+    @Test
+    public void swipeUpGestureTest() throws InterruptedException {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        Thread.sleep(3000);
         WebElement element = driver.findElement(AppiumBy.id("android:id/list"));
         // Java
         ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
@@ -144,6 +178,67 @@ public class GesturesTest1 extends BaseTest {
                 "elementId", ((RemoteWebElement) element).getId(),
                 "direction", "up",
                 "percent", 0.75));
+    }
+
+    @Test
+    public void swipeDownGestureTest() throws InterruptedException {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        Thread.sleep(3000);
+
+        // swipe up
+        WebElement element = driver.findElement(AppiumBy.id("android:id/list"));
+        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+                // "left", 139, "top", 2771, "width", 200, "height", 200,
+                "elementId", ((RemoteWebElement) element).getId(),
+                "direction", "up",
+                "percent", 0.75));
+
+        // swipe down
+        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+                // "left", 139, "top", 2771, "width", 200, "height", 200,
+                "elementId", ((RemoteWebElement) element).getId(),
+                "direction", "down",
+                "percent", 0.75));
+    }
+
+    @Test
+    public void scrollGestureByBoundingAreaTest() {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        // Scrolling by the bounding area
+        boolean canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture",
+                ImmutableMap.of(
+                        "left", 100, "top", 100, "width", 200, "height", 200, // scroll by this bound area defined by
+                                                                              // ,200,200
+                        "direction", "down",
+                        "percent", 1.0));
+    }
+
+    @Test
+    public void scrollGestureByElementAreaTest() {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+
+        WebElement element = driver.findElement(AppiumBy.accessibilityId("Animation"));
+        // Scrolling by the element Animantion in this case
+        boolean canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture",
+                ImmutableMap.of(
+                        "elementId", ((RemoteWebElement) element).getId(),
+                        "direction", "down",
+                        "percent", 1.0));
+    }
+
+    @Test
+    public void scrollGestureAllTheWayDownTest() {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+
+        // Scrolling all the way to the bottom of the page
+        boolean canScrollMore = true;
+        while (canScrollMore) {
+             canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture",
+                    ImmutableMap.of(
+                        "left", 100, "top", 100, "width", 200, "height", 200, 
+                            "direction", "down",
+                            "percent", 1.0));
+        }
     }
 
 }
