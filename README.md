@@ -309,4 +309,33 @@ The key-value pair in this context is:
 This pair is used to tell Appium which specific element should be clicked.
 
 
+## Appium Driver Commands
+
+## APKInfo app
+It s a utility application for Android devices that provides detailed information about installed apps and APK files. Here are the key points about APKInfo:
+
+1. It's a free tool specifically developed for Android devices.
+
+2. The app allows users to view detailed information about installed applications on their Android device, including:
+
+   - Package name
+   - Version number
+   - Installation date
+   - Last update date
+   - App permissions
+   - App size
+   - Target SDK version
+   - Minimum SDK version required
+
+3. APKInfo can also analyze APK files that are not yet installed on the device, providing information about their contents and structure.
+
+4. It's useful for developers, power users, and those interested in understanding more about the apps on their devices.
+
+5. The app can help users identify potentially suspicious or unnecessary permissions requested by apps, which can be helpful for security and privacy considerations.
+
+6. APKInfo does not modify or install/uninstall apps; it's purely an information tool.
+
+7. It can be particularly useful for developers testing their own apps or for users who want to verify the authenticity and details of apps before installation.
+
+While APKInfo is a useful tool, it's important to note that users should always exercise caution when dealing with APK files and only download apps from trusted sources like the Google Play Store to avoid potential security risks[3][4].
 

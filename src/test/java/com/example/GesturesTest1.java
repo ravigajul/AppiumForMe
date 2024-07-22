@@ -21,7 +21,6 @@ public class GesturesTest1 extends BaseTest {
 
     @BeforeMethod
     public void setUp() throws MalformedURLException {
-        options.setApp("/Users/ravigajul/Downloads/ApiDemos-debug.apk");
         options.setApp(System.getProperty("user.dir") + "/src/main/resources/ApiDemos-debug.apk");
         driver = new AndroidDriver(URI.create("http://127.0.0.1:4723").toURL(), options);
 
@@ -205,6 +204,7 @@ public class GesturesTest1 extends BaseTest {
     public void scrollGestureByBoundingAreaTest() {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
         // Scrolling by the bounding area
+        @SuppressWarnings("unused")
         boolean canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture",
                 ImmutableMap.of(
                         "left", 100, "top", 100, "width", 200, "height", 200, // scroll by this bound area defined by
@@ -219,6 +219,7 @@ public class GesturesTest1 extends BaseTest {
 
         WebElement element = driver.findElement(AppiumBy.accessibilityId("Animation"));
         // Scrolling by the element Animantion in this case
+        @SuppressWarnings("unused")
         boolean canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture",
                 ImmutableMap.of(
                         "elementId", ((RemoteWebElement) element).getId(),
