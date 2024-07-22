@@ -337,5 +337,5 @@ It s a utility application for Android devices that provides detailed informatio
 
 7. It can be particularly useful for developers testing their own apps or for users who want to verify the authenticity and details of apps before installation.
 
-While APKInfo is a useful tool, it's important to note that users should always exercise caution when dealing with APK files and only download apps from trusted sources like the Google Play Store to avoid potential security risks[3][4].
+While APKInfo is a useful tool, it's important to note that users should always exercise caution when dealing with APK files and only download apps from trusted sources like the Google Play Store to avoid potential security risks.
 
