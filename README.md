@@ -339,3 +339,346 @@ It s a utility application for Android devices that provides detailed informatio
 
 While APKInfo is a useful tool, it's important to note that users should always exercise caution when dealing with APK files and only download apps from trusted sources like the Google Play Store to avoid potential security risks.
 
+---
+
+## 🚀 Parallel Testing with Multiple Emulators
+
+This project supports running Appium tests in parallel across multiple Android emulators, enabling faster test execution and improved CI/CD pipeline efficiency.
+
+### 🏗️ Architecture Overview
+
+```
+BaseTest.java
+├── driver1 (emulator-5554) → Appium Server Port 4723
+├── driver2 (emulator-5556) → Appium Server Port 4724
+├── initialize() → Sets up both drivers
+└── destroy() → Cleans up both sessions
+
+FirstTest.java
+├── firstTestOnEmulator1() → Uses driver1
+├── firstTestOnEmulator2() → Uses driver2
+└── parallelTest() → Uses both drivers in parallel threads
+```
+
+### 📋 Prerequisites
+
+1. **Multiple Android Emulators**: Ensure you have at least 2 emulators created and running
+2. **Appium Installation**: Latest version of Appium installed globally
+3. **UIAutomator2 Driver**: Installed via Appium CLI
+4. **Sufficient System Resources**: Each emulator requires dedicated CPU and memory
+
+### 🔧 Setup Instructions
+
+#### Step 1: Create and Start Multiple Emulators
+
+```bash
+# List available AVDs
+avd list
+
+# Start first emulator (will get port 5554)
+emulator -avd <Your_AVD_Name_1> &
+
+# Start second emulator (will get port 5556)
+emulator -avd <Your_AVD_Name_2> &
+
+# Verify both emulators are connected
+adb devices
+```
+
+Expected output:
+```
+List of devices attached
+emulator-5554   device
+emulator-5556   device
+```
+
+#### Step 2: Start Multiple Appium Servers
+
+**Terminal 1 - First Appium Server:**
+```bash
+appium server --port 4723 --session-override
+```
+
+**Terminal 2 - Second Appium Server:**
+```bash
+appium server --port 4724 --session-override
+```
+
+#### Step 3: Verify Server Status
+
+```bash
+# Check if both servers are running
+curl http://localhost:4723/status
+curl http://localhost:4724/status
+
+# Alternative check
+lsof -i :4723
+lsof -i :4724
+```
+
+### 🧪 Test Execution
+
+#### Run Individual Emulator Tests
+
+```bash
+# Test on Emulator 1 only
+mvn test -Dtest=FirstTest#firstTestOnEmulator1
+
+# Test on Emulator 2 only
+mvn test -Dtest=FirstTest#firstTestOnEmulator2
+
+# Test parallel operations
+mvn test -Dtest=FirstTest#parallelTest
+```
+
+#### Run All Tests (Sequential + Parallel)
+
+```bash
+# Run complete test suite
+mvn test -Dtest=FirstTest
+
+# Results will show:
+# Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+```
+
+### 📁 Project Structure
+
+```
+src/test/java/com/example/
+├── BaseTest.java          # Dual driver management
+├── FirstTest.java         # Parallel test examples
+├── DriverCommands.java    # Driver utility methods
+├── GesturesTest1.java     # Gesture testing
+└── GesTuresTest2.java     # Additional gestures
+
+src/main/resources/
+└── ApiDemos-debug.apk     # Test application
+```
+
+### 🔧 Configuration Details
+
+#### BaseTest.java - Dual Driver Setup
+
+```java
+public class BaseTest {
+    protected AndroidDriver driver1; // emulator-5554
+    protected AndroidDriver driver2; // emulator-5556
+    
+    @BeforeMethod
+    public void initialize() {
+        // Initialize both drivers with different configurations
+        // Port 4723 for driver1, Port 4724 for driver2
+    }
+    
+    @AfterMethod
+    public void destroy() {
+        // Clean up both sessions properly
+    }
+}
+```
+
+#### Key Configuration Parameters
+
+| Parameter | Emulator 1 | Emulator 2 |
+|-----------|------------|------------|
+| **Appium Server Port** | 4723 | 4724 |
+| **Device UDID** | emulator-5554 | emulator-5556 |
+| **Device Name** | Emulator1 | Emulator2 |
+| **App Path** | Same APK for both | Same APK for both |
+
+### 🏃‍♂️ Parallel Test Examples
+
+#### Sequential Testing
+```java
+@Test
+public void firstTestOnEmulator1() {
+    // Runs only on emulator-5554
+    driver1.findElement(AppiumBy.accessibilityId("Animation")).click();
+}
+
+@Test  
+public void firstTestOnEmulator2() {
+    // Runs only on emulator-5556
+    driver2.findElement(AppiumBy.accessibilityId("Animation")).click();
+}
+```
+
+#### True Parallel Testing
+```java
+@Test
+public void parallelTest() {
+    Thread thread1 = new Thread(() -> {
+        // Emulator 1 operations
+        driver1.findElement(AppiumBy.accessibilityId("Views")).click();
+    });
+    
+    Thread thread2 = new Thread(() -> {
+        // Emulator 2 operations  
+        driver2.findElement(AppiumBy.accessibilityId("Graphics")).click();
+    });
+    
+    // Start both threads simultaneously
+    thread1.start();
+    thread2.start();
+    
+    // Wait for completion
+    thread1.join();
+    thread2.join();
+}
+```
+
+### 🐛 Troubleshooting
+
+#### Common Issues and Solutions
+
+**1. Port Already in Use**
+```bash
+# Kill existing Appium processes
+pkill -f appium
+
+# Wait and restart
+sleep 2
+appium server --port 4723 --session-override &
+appium server --port 4724 --session-override &
+```
+
+**2. Emulator Not Responding**
+```bash
+# Restart ADB
+adb kill-server
+adb start-server
+
+# Check device status
+adb devices
+```
+
+**3. Session Creation Failures**
+- Ensure both Appium servers are running
+- Verify emulator UDIDs match configuration
+- Check available system memory for multiple emulators
+
+**4. App Installation Issues**
+```bash
+# Manually install APK on both emulators
+adb -s emulator-5554 install src/main/resources/ApiDemos-debug.apk
+adb -s emulator-5556 install src/main/resources/ApiDemos-debug.apk
+```
+
+### 📊 Performance Considerations
+
+#### Resource Requirements
+- **CPU**: Multi-core processor recommended (4+ cores)
+- **RAM**: Minimum 8GB, 16GB+ recommended
+- **Storage**: SSD recommended for faster emulator performance
+
+#### Optimization Tips
+1. **Emulator Settings**: Allocate appropriate RAM (2-4GB per emulator)
+2. **Parallel Execution**: Limit concurrent emulators based on system capacity
+3. **Test Design**: Keep parallel tests independent to avoid conflicts
+4. **Cleanup**: Properly terminate sessions to free resources
+
+### 🔄 CI/CD Integration
+
+#### Maven Surefire Configuration
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.22.1</version>
+    <configuration>
+        <parallel>methods</parallel>
+        <threadCount>2</threadCount>
+        <includes>
+            <include>**/*Test.java</include>
+        </includes>
+    </configuration>
+</plugin>
+```
+
+#### Jenkins Pipeline Example
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Setup Emulators') {
+            steps {
+                sh 'emulator -avd API_35_1 &'
+                sh 'emulator -avd API_35_2 &'
+                sh 'sleep 30' // Wait for emulators to boot
+            }
+        }
+        stage('Start Appium Servers') {
+            parallel {
+                stage('Server 1') {
+                    steps {
+                        sh 'appium server --port 4723 --session-override &'
+                    }
+                }
+                stage('Server 2') {
+                    steps {
+                        sh 'appium server --port 4724 --session-override &'
+                    }
+                }
+            }
+        }
+        stage('Run Parallel Tests') {
+            steps {
+                sh 'mvn test -Dtest=FirstTest'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'pkill -f appium'
+            sh 'pkill -f emulator'
+        }
+    }
+}
+```
+
+### 📈 Scaling to More Devices
+
+To add additional emulators and parallel execution:
+
+1. **Start More Emulators**:
+   ```bash
+   emulator -avd API_35_3 &  # Will get emulator-5558
+   emulator -avd API_35_4 &  # Will get emulator-5560
+   ```
+
+2. **Launch Additional Appium Servers**:
+   ```bash
+   appium server --port 4725 --session-override &
+   appium server --port 4726 --session-override &
+   ```
+
+3. **Extend BaseTest Class**:
+   ```java
+   protected AndroidDriver driver3; // emulator-5558
+   protected AndroidDriver driver4; // emulator-5560
+   ```
+
+4. **Update Test Methods**: Add corresponding test methods for new drivers
+
+### ✅ Best Practices
+
+1. **Independent Tests**: Ensure tests don't interfere with each other
+2. **Resource Management**: Monitor system resources during parallel execution
+3. **Error Handling**: Implement proper exception handling for device failures
+4. **Logging**: Use distinct logging for each emulator/driver
+5. **Test Data**: Use separate test data sets for parallel tests
+6. **Cleanup**: Always clean up sessions in @AfterMethod
+7. **Timeouts**: Set appropriate timeouts for parallel operations
+
+### 🎯 Benefits
+
+- **Faster Execution**: 2x speed improvement with 2 emulators
+- **Better Coverage**: Test different scenarios simultaneously  
+- **CI/CD Efficiency**: Reduced pipeline execution time
+- **Resource Utilization**: Better use of available system resources
+- **Scalability**: Easy to add more devices as needed
+
+---
+
+**Happy Parallel Testing! 🚀📱📱**
+
