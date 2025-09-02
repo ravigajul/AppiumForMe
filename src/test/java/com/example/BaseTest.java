@@ -3,6 +3,7 @@ package com.example;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -43,6 +44,18 @@ public class BaseTest {
 
         // Create driver instances for both emulators in parallel
         System.out.println("🚀 Initializing dual emulator setup...");
+
+        // Verify devices are connected using utility
+        if (AppPackageUtility.isAdbAvailable()) {
+            List<String> devices = AppPackageUtility.getConnectedDevices();
+            System.out.println("📱 Connected devices: " + devices);
+
+            if (!devices.contains("emulator-5554") || !devices.contains("emulator-5556")) {
+                System.out.println("⚠️ Warning: Expected emulators not found!");
+            }
+        } else {
+            System.out.println("⚠️ Warning: ADB not available or no devices connected!");
+        }
 
         // Create both drivers
         driver1 = new AndroidDriver(new URI(appiumServer1).toURL(), options1);

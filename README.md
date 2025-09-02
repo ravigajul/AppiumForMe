@@ -682,3 +682,191 @@ To add additional emulators and parallel execution:
 
 **Happy Parallel Testing! 🚀📱📱**
 
+---
+
+## 🔍 App Package Discovery Utility
+
+The project includes a comprehensive `AppPackageUtility` class that helps discover Android app package names and related information using ADB commands. This utility is essential for setting up Appium tests and debugging app-related issues.
+
+### 🛠️ Features
+
+- **Current App Detection**: Find the currently focused app's package and activity
+- **Package Search**: Search through all installed packages
+- **Device Management**: List connected devices and verify ADB availability
+- **APK Analysis**: Extract package information from APK files
+- **Running Activities**: Monitor active app activities
+- **Integration Ready**: Easy integration with existing test frameworks
+
+### 📖 Usage Examples
+
+#### Basic Usage
+
+```java
+// Get current focused app information
+String currentApp = AppPackageUtility.getCurrentFocusedApp();
+System.out.println("Current App: " + currentApp);
+
+// Get package name only
+String packageName = AppPackageUtility.getCurrentPackageName();
+System.out.println("Package: " + packageName);
+
+// Get activity name only  
+String activityName = AppPackageUtility.getCurrentActivityName();
+System.out.println("Activity: " + activityName);
+```
+
+#### Search for Packages
+
+```java
+// Search for packages containing "google"
+List<String> googleApps = AppPackageUtility.searchPackages("google");
+for (String app : googleApps) {
+    System.out.println("Google app: " + app);
+}
+
+// Get all installed packages
+List<String> allPackages = AppPackageUtility.getAllInstalledPackages();
+System.out.println("Total packages: " + allPackages.size());
+```
+
+#### Device Information
+
+```java
+// Check if ADB is available
+if (AppPackageUtility.isAdbAvailable()) {
+    System.out.println("ADB is ready!");
+    
+    // Get connected devices
+    List<String> devices = AppPackageUtility.getConnectedDevices();
+    System.out.println("Connected devices: " + devices);
+} else {
+    System.out.println("ADB not available or no devices connected");
+}
+```
+
+#### APK Analysis
+
+```java
+// Get package info from APK file
+String apkPath = "/path/to/your/app.apk";
+String apkInfo = AppPackageUtility.getPackageFromAPK(apkPath);
+System.out.println("APK Info: " + apkInfo);
+```
+
+#### Integration with BaseTest
+
+```java
+@BeforeTest
+public void initialize() {
+    // Verify devices before creating drivers
+    if (AppPackageUtility.isAdbAvailable()) {
+        List<String> devices = AppPackageUtility.getConnectedDevices();
+        
+        if (!devices.contains("emulator-5554") || !devices.contains("emulator-5556")) {
+            throw new RuntimeException("Required emulators not connected!");
+        }
+    }
+    
+    // Continue with driver initialization...
+}
+```
+
+### 🖥️ Command Line Usage
+
+The utility can also be used from command line:
+
+```bash
+# Compile the utility
+mvn compile
+
+# Run different commands
+java -cp target/classes com.example.AppPackageUtility current     # Current app
+java -cp target/classes com.example.AppPackageUtility package     # Package name only
+java -cp target/classes com.example.AppPackageUtility activity    # Activity name only
+java -cp target/classes com.example.AppPackageUtility search youtube  # Search packages
+java -cp target/classes com.example.AppPackageUtility devices     # List devices
+java -cp target/classes com.example.AppPackageUtility apk /path/to/app.apk  # APK info
+java -cp target/classes com.example.AppPackageUtility             # Full report
+```
+
+### 🧪 Testing the Utility
+
+Run the utility test to see it in action:
+
+```bash
+# Run the utility test
+mvn test -Dtest=AppPackageUtilityTest
+
+# Run specific test methods
+mvn test -Dtest=AppPackageUtilityTest#testGetCurrentApp
+mvn test -Dtest=AppPackageUtilityTest#testSearchPackages
+mvn test -Dtest=AppPackageUtilityTest#testDeviceInfo
+```
+
+### 📋 Common Package Names Reference
+
+| App | Package Name |
+|-----|--------------|
+| **Chrome** | `com.android.chrome` |
+| **YouTube** | `com.google.android.youtube` |
+| **Facebook** | `com.facebook.katana` |
+| **WhatsApp** | `com.whatsapp` |
+| **Instagram** | `com.instagram.android` |
+| **Gmail** | `com.google.android.gm` |
+| **Google Maps** | `com.google.android.apps.maps` |
+| **Settings** | `com.android.settings` |
+| **ApiDemos** | `io.appium.android.apis` |
+
+### 🔧 ADB Commands Reference
+
+The utility internally uses these ADB commands:
+
+```bash
+# Get current focused app
+adb shell dumpsys window displays | grep mCurrentFocus
+
+# List all packages
+adb shell pm list packages
+
+# List connected devices
+adb devices
+
+# Get running activities
+adb shell dumpsys activity activities
+
+# Get package info from APK
+aapt dump badging /path/to/app.apk | grep package
+```
+
+### 💡 Pro Tips
+
+1. **Always check ADB availability** before using device-related methods
+2. **Use try-catch blocks** when calling utility methods in production code
+3. **Cache package information** if calling repeatedly to avoid performance impact
+4. **Combine with Appium logs** for comprehensive debugging
+5. **Use in CI/CD pipelines** to verify test environment setup
+
+### 🐛 Troubleshooting
+
+**ADB Not Found:**
+```bash
+# Make sure ADB is in your PATH
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+**No Devices Found:**
+```bash
+# Restart ADB
+adb kill-server
+adb start-server
+adb devices
+```
+
+**Permission Issues:**
+```bash
+# Enable USB debugging on device
+# Accept RSA key fingerprint when prompted
+```
+
+This utility makes it easy to discover and manage Android app package information, essential for effective Appium test automation! 🔍📱
+
