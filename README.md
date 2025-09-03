@@ -1,5 +1,21 @@
 # AppiumForMe
 Appium is a mobile automation testing tool that allows developers to write automated tests for mobile applications across different platforms (iOS, Android, Windows) using a single API. The architecture of Appium consists of several components that work together to execute test scripts on mobile devices.
+
+## Quick Start
+
+### Option 1: Automated Setup (Recommended for new users)
+```bash
+# Run the automated setup script
+./quick_setup.sh
+
+# Start Appium servers
+./start_appium.sh
+
+# Run tests
+mvn test -Dtest=FirstTest#parallelTest
+
+# Stop servers when done
+./stop_appium.sh
 ## Appium Architecture
 
 Here's a brief overview of the Appium architecture:
@@ -867,6 +883,7 @@ adb devices
 # Enable USB debugging on device
 # Accept RSA key fingerprint when prompted
 ```
+
 
 This utility makes it easy to discover and manage Android app package information, essential for effective Appium test automation! 🔍📱
 
