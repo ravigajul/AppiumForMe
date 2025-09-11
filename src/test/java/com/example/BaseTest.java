@@ -43,18 +43,18 @@ public class BaseTest {
         options2.setApp(System.getProperty("user.dir") + "/src/main/resources/ApiDemos-debug.apk");
 
         // Create driver instances for both emulators in parallel
-        System.out.println("🚀 Initializing dual emulator setup...");
+        System.out.println("Initializing dual emulator setup...");
 
         // Verify devices are connected using utility
         if (AppPackageUtility.isAdbAvailable()) {
             List<String> devices = AppPackageUtility.getConnectedDevices();
-            System.out.println("📱 Connected devices: " + devices);
+            System.out.println("Connected devices: " + devices);
 
             if (!devices.contains("emulator-5554") || !devices.contains("emulator-5556")) {
-                System.out.println("⚠️ Warning: Expected emulators not found!");
+                System.out.println("Warning: Expected emulators not found!");
             }
         } else {
-            System.out.println("⚠️ Warning: ADB not available or no devices connected!");
+            System.out.println("Warning: ADB not available or no devices connected!");
         }
 
         // Create both drivers
@@ -65,9 +65,9 @@ public class BaseTest {
         ensureAppInstalled(driver1, "io.appium.android.apis");
         ensureAppInstalled(driver2, "io.appium.android.apis");
 
-        System.out.println("✅ Dual emulator setup complete!");
-        System.out.println("📱 Emulator 1 (emulator-5554) ready on port 4723");
-        System.out.println("📱 Emulator 2 (emulator-5556) ready on port 4724");
+        System.out.println("Dual emulator setup complete!");
+        System.out.println("Emulator 1 (emulator-5554) ready on port 4723");
+        System.out.println("Emulator 2 (emulator-5556) ready on port 4724");
     }
 
     private void ensureAppInstalled(AndroidDriver driver, String appPackage) {
@@ -89,7 +89,7 @@ public class BaseTest {
                 System.out.println("App not running or already terminated on Emulator 1");
             }
             driver1.quit();
-            System.out.println("✅ Emulator 1 session closed");
+            System.out.println("Emulator 1 session closed");
         }
 
         if (driver2 != null) {
@@ -99,7 +99,7 @@ public class BaseTest {
                 System.out.println("App not running or already terminated on Emulator 2");
             }
             driver2.quit();
-            System.out.println("✅ Emulator 2 session closed");
+            System.out.println("Emulator 2 session closed");
         }
 
         System.out.println("🏁 Dual emulator cleanup complete!");
